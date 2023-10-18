@@ -1,64 +1,80 @@
 const myLibrary = [
   {
-    name: "Meditations", 
+    name: "Meditations",
     author: "Marcus Aurelius",
     genre: "Philosophy",
     pages: "254",
     status: "reading"
   },
   {
-    name: "Atomic Habits", 
+    name: "Atomic Habits",
     author: "James Clear",
     genre: "Self Help",
     pages: "285",
     status: "not read"
   },
   {
-    name: "The Intelligent Investor", 
+    name: "The Intelligent Investor",
     author: "Benjamin Graham",
     genre: "Finance",
     pages: "623",
     status: "read"
-  }
+  },
 ];
 
-// function Book(name, author, pages, description, genre) {
-//   this.name = name
-//   this.author = author
-//   this.pages = pages
-//   this.description = description
-//   this.genre = genre
-// }
-
-function addBookToLibrary() {
-    let tableNumber = 1;
-
-    for (const book of myLibrary) {
-      const newRow = document.createElement("tr");
-      const bookName = document.createElement("td");
-      const bookAuthor = document.createElement("td");
-      const bookPages = document.createElement("td");
-      const bookGenre = document.createElement("td");
-      const bookStatus = document.createElement("td");
-      const tableBody = document.querySelector("tbody");
-
-      tableBody.appendChild(newRow).className = `table-row-${tableNumber}`;
-      newRow.appendChild(bookName).textContent = `${book.name}`;
-      newRow.appendChild(bookAuthor).textContent = `${book.author}`;
-      newRow.appendChild(bookGenre).textContent = `${book.genre}`;
-      newRow.appendChild(bookPages).textContent = `${book.pages}`;
-      newRow.appendChild(bookGenre).textContent = `${book.genre}`;
-      newRow.appendChild(bookStatus).textContent = `${book.status}`;
-      tableNumber++;
-    }
-    // for (const book of myLibrary) {
-    //   console.log("Name: " + book.name);
-    //   console.log("Author: " + book.author);
-    //   console.log("Genre: " + book.genre);
-    //   console.log("Pages: " + book.pages);
-    //   console.log("Status: " + book.status);
-    //   console.log("-----------");
-    // }
+function book(name, author, genre, pages, status) {
+  this.name = name;
+  this.author = author;
+  this.genre = genre;
+  this.pages = pages;
+  this.status = status;
 }
 
-addBookToLibrary();
+let inputName = document.querySelector("#input-name").value;
+let inputAuthor = document.querySelector(".input-author");
+let inputGenre = document.querySelector(".input-genre");
+let inputPages = document.querySelector(".input-pages");
+let inputStatus = document.querySelector(".input-status");
+
+// let inputName = document.getElementById("input-name").value;
+// let inputAuthor = document.getElementById("input-author").value;
+// let inputGenre = document.getElementById("input-genre").value;
+// let inputPages = document.getElementById("input-pages").value;
+// let inputStatus = document.getElementById("input-status").value;
+
+document.getElementById("add-button").addEventListener("click", addBookToLibrary(inputName,inputAuthor,inputGenre,inputPages,inputStatus));
+
+function addBookToLibrary(name, author, genre, pages, status) {
+  let newBook = new book(name, author, genre, pages, status);
+  myLibrary.push(newBook);
+}
+
+function displayBookToLibrary() {
+  let tableNumber = 1;
+  for (const book of myLibrary) {
+    const tableBody = document.querySelector("tbody");
+    const newRow = document.createElement("tr");
+    const bookNameColumn = document.createElement("td");
+    const bookAuthorColumn = document.createElement("td");
+    const bookPagesColumn = document.createElement("td");
+    const bookGenreColumn = document.createElement("td");
+    const bookStatusColumn = document.createElement("td");
+      bookStatusColumn.setAttribute('class','book-status-column');
+    const deleteColumn = document.createElement("td");
+      deleteColumn.setAttribute('class','delete-button-column');
+    const deleteButton = document.createElement("button");
+      deleteButton.setAttribute('class','delete-button');
+
+    tableBody.appendChild(newRow).className = `table-row-${tableNumber}`;
+    newRow.appendChild(bookNameColumn).textContent = `${book.name}`;
+    newRow.appendChild(bookAuthorColumn).textContent = `${book.author}`;
+    newRow.appendChild(bookGenreColumn).textContent = `${book.genre}`;
+    newRow.appendChild(bookPagesColumn).textContent = `${book.pages}`;
+    newRow.appendChild(bookStatusColumn).textContent = `${book.status}`;
+    newRow.appendChild(deleteColumn);
+    deleteColumn.appendChild(deleteButton).textContent = "Delete";
+    tableNumber++;
+  }
+}
+
+displayBookToLibrary();
