@@ -23,6 +23,8 @@ const myLibrary = [
   },
 ];
 
+const allStatus = ['reading','read','not read'];
+
 // ---------- BOOK CONSTRUCTOR ----------
 function book(name, author, genre, pages, status) {
   this.name = name;
@@ -33,8 +35,8 @@ function book(name, author, genre, pages, status) {
 }
 
 // ---------- ADD BUTTON ----------
-let buttonBox = document.getElementById("add-button");
-buttonBox.onclick = inputValidation;
+let addButton = document.getElementById("add-button");
+addButton.onclick = inputValidation;
 
 // ---------- ADD NEWBOOK TO MYLIBRARY ----------
 function inputValidation(){
@@ -64,10 +66,13 @@ function updateDisplay(book){
   const bookGenreColumn = document.createElement("td");
   const bookStatusColumn = document.createElement("td");
     bookStatusColumn.setAttribute('class','book-status-column');
+    bookStatusColumn.onclick = function(e) { changeStatus(e); };
   const deleteColumn = document.createElement("td");
     deleteColumn.setAttribute('class','delete-button-column');
   const deleteButton = document.createElement("button");
     deleteButton.setAttribute('class','delete-button');
+    deleteButton.setAttribute('id','delete-button');
+    deleteButton.onclick = function(e) { deleteBook(e); };
 
   tableBody.appendChild(newRow).className = `table-row`;
   newRow.appendChild(bookNameColumn).textContent = `${book.name}`;
@@ -87,3 +92,42 @@ function displayBookToLibrary() {
 }
 
 displayBookToLibrary();
+
+// ---------- DELETE BOOK ----------
+function deleteBook(e) {
+  let bookDelete = e.target.parentNode.parentNode.firstChild.textContent;
+  myLibrary.splice(getIndex(bookDelete), 1);
+  let parent = e.target.parentNode.parentNode;
+  parent.remove();
+}
+
+// ---------- GET INDEX OF BOOK ----------
+function getIndex(e) {
+  for (const book of myLibrary) {
+    if(e === book.name) {
+      return myLibrary.indexOf(book);
+    }
+  }
+}
+
+// ---------- CHANGE STATUS ----------
+function changeStatus(e) {
+  let changeStatus = e.target.parentNode.firstChild.textContent;
+  let indexOfBook = getIndex(changeStatus);
+  myLibrary[indexOfBook].status = allStatus[loopStatus(myLibrary[indexOfBook].status)]
+  e.target.textContent = myLibrary[indexOfBook].status;
+}
+
+// ---------- STATUS LOOP ----------
+function loopStatus(e) {
+  for (const status of allStatus) {
+    if(e === status) {
+      if(allStatus.indexOf(status) === (allStatus.length-1)) {
+        return 0;
+      }
+      else {
+        return (allStatus.indexOf(status)+1);
+      }
+    }
+  }
+}
