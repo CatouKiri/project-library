@@ -86,10 +86,24 @@ table {
 }
 
 table, th, td {
-    border: solid 1px black;
     text-align: left;
+    border-bottom: 1px solid black;
+    /* border-collapse: collapse;
+    padding: 0px;
+    margin: 0px; */
 }
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px 0px 5px 0px;
+    margin: 0px;
+}
+
 
 .delete-button-column, .book-status-column {
     text-align: center;
+    cursor: pointer;
 }
