@@ -26,13 +26,23 @@ const myLibrary = [
 const allStatus = ['reading','read','not read'];
 
 // ---------- BOOK CONSTRUCTOR ----------
-function book(name, author, genre, pages, status) {
-  this.name = name;
-  this.author = author;
-  this.genre = genre;
-  this.pages = pages;
-  this.status = status;
+class book {
+  constructor(name, author, genre, pages, status) {
+    this.name = name;
+    this.author = author;
+    this.genre = genre;
+    this.pages = pages;
+    this.status = status;
+  }
 }
+
+// function book(name, author, genre, pages, status) {
+//   this.name = name;
+//   this.author = author;
+//   this.genre = genre;
+//   this.pages = pages;
+//   this.status = status;
+// }
 
 // ---------- ADD BUTTON ----------
 let addButton = document.getElementById("add-button");
