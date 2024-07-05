@@ -19,7 +19,7 @@
                 <div class="input-container">
                     <div class="name-container">
                         <h3>Name</h3>
-                        <input id="input-name" type="text">
+                        <input id="input-name" type="text" required>
                     </div>
                     <div class="author-container">
                         <h3>Author</h3>
@@ -35,7 +35,11 @@
                     </div>
                     <div class="status-container">
                         <h3>Status</h3>
-                        <input id="input-status" type="text">
+                        <select id="input-status">
+                            <option value="read">Read</option>
+                            <option value="reading">Reading</option>
+                            <option value="not read">Not Read</option>
+                        </select>
                     </div>
                 </div>
                 <button type="submit" id="add-button" class="add-button">ADD</button>

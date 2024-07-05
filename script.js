@@ -48,13 +48,22 @@ class book {
 let addButton = document.getElementById("add-button");
 addButton.onclick = inputValidation;
 
+function inputValidation() {
+  let inputName = document.querySelector("#input-name");
+
+  if(!inputName.validity.valueMissing) {
+    addNewBook();
+  }
+}
+
 // ---------- ADD NEWBOOK TO MYLIBRARY ----------
-function inputValidation(){
+function addNewBook(){
 let inputName = document.querySelector("#input-name").value;
 let inputAuthor = document.querySelector("#input-author").value;
 let inputGenre = document.querySelector("#input-genre").value;
 let inputPages = document.querySelector("#input-pages").value;
 let inputStatus = document.querySelector("#input-status").value;
+
 
 addBookToLibrary(inputName, inputAuthor, inputGenre, inputPages, inputStatus);
 }
@@ -77,6 +86,7 @@ function updateDisplay(book){
   const bookStatusColumn = document.createElement("td");
     bookStatusColumn.setAttribute('class','book-status-column');
     bookStatusColumn.onclick = function(e) { changeStatus(e); };
+    statusColor(book.status, bookStatusColumn);
   const deleteColumn = document.createElement("td");
     deleteColumn.setAttribute('class','delete-button-column');
   const deleteButton = document.createElement("button");
@@ -86,9 +96,9 @@ function updateDisplay(book){
 
   tableBody.appendChild(newRow).className = `table-row`;
   newRow.appendChild(bookNameColumn).textContent = `${book.name}`;
-  newRow.appendChild(bookAuthorColumn).textContent = `${book.author}`;
-  newRow.appendChild(bookGenreColumn).textContent = `${book.genre}`;
-  newRow.appendChild(bookPagesColumn).textContent = `${book.pages}`;
+  checkIfNull(newRow, bookAuthorColumn, book.author);
+  checkIfNull(newRow, bookGenreColumn, book.genre);
+  checkIfNull(newRow, bookPagesColumn, book.pages);
   newRow.appendChild(bookStatusColumn).textContent = `${book.status}`;
   newRow.appendChild(deleteColumn);
   deleteColumn.appendChild(deleteButton).textContent = "Delete";
@@ -126,6 +136,7 @@ function changeStatus(e) {
   let indexOfBook = getIndex(changeStatus);
   myLibrary[indexOfBook].status = allStatus[loopStatus(myLibrary[indexOfBook].status)]
   e.target.textContent = myLibrary[indexOfBook].status;
+  statusColor(e.target.textContent, e.target)
 }
 
 // ---------- STATUS LOOP ----------
@@ -139,5 +150,25 @@ function loopStatus(e) {
         return (allStatus.indexOf(status)+1);
       }
     }
+  }
+}
+
+// ---------- STATUS COLOR ----------
+function statusColor(status, element) {
+  if(status === "not read") {
+    element.setAttribute("style", "color: red");
+  } else if(status === "read") {
+    element.setAttribute("style", "color: green");
+  } else {
+    element.setAttribute("style", "color: blue");
+  }
+}
+
+// ---------- IF NULL ----------
+function checkIfNull(newRow, element, data) {
+  if(!data) {
+    newRow.appendChild(element).textContent = `-`;
+  } else {
+    newRow.appendChild(element).textContent = `${data}`;
   }
 }
